@@ -11,15 +11,7 @@ const log = winston.createLogger({
   ),
   transports: [
     // todo add proper logging transports here, will just dump to console for demo
-    new winston.transports.Console({
-      format: winston.format.combine(
-        winston.format.colorize(),
-        winston.format.padLevels(),
-        // winston.format.simple()
-        winston.format.printf(info => `${info.timestamp} ${info.level} ${info.message}`)
-      ),
-      level: 'silly'
-    })
+    new winston.transports.Console()
   ],
   exceptionHandlers: [
     new winston.transports.File({
