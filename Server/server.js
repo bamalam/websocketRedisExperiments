@@ -49,7 +49,7 @@ module.exports = class Server {
     this.redisSub.subscribe(messages.boardcastMessage);
     this.redisSub.subscribe(messages.directMessage);
 
-    this.wss.on('upgrade', async (request, socket, head) => {
+    this.wss.on('connection', async (socket, request) => {
       const user = await authenticate(request);
       if (!user) {
         socket.write('HTTP/1.1 401 Unauthorized\r\n\r\n');
@@ -58,12 +58,6 @@ module.exports = class Server {
       }
 
       socket.id = user.id;
-      this.wss.handleUpgrade(request, socket, head, (ws) => {
-        this.wss.emit('connection', ws, request);
-      });
-    });
-
-    this.wss.on('connection', (socket, request) => {
       socket.on(messages.boardcastMessage, (message) => {
         this.redisPub.publish(messages.boardcastMessage, message);
       });
