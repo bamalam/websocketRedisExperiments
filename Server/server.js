@@ -8,7 +8,7 @@ const { once } = require('events');
 
 async function authenticate (request) {
   // todo would check headers to auth here
-  // dummy await to replacate auth check
+  // dummy await to replicate auth check
   await Promise.resolve();
 
   return {
@@ -59,10 +59,12 @@ module.exports = class Server {
 
       socket.id = user.id;
       socket.on(messages.boardcastMessage, (message) => {
+        log.silly('received broadcast message', message, user);
         this.redisPub.publish(messages.boardcastMessage, message);
       });
 
       socket.on(messages.directMessage, (message) => {
+        log.silly('received direct message', message, user);
         this.redisPub.publish(messages.directMessage, message);
       });
     });
