@@ -1,0 +1,8 @@
+{
+  "log": {
+    "level": "silly"
+  },
+  "server": {
+    "port": 8899
+  }
+}
